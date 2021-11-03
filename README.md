@@ -1,2 +1,2 @@
 # vue-mall
-vue 练习像谬
+vue 练习项目
