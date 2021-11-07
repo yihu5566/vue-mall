@@ -1,15 +1,13 @@
 <template>
- <div> <h3> 我是标题</h3></div>
+  <div>profile</div>
 </template>
 
 <script>
 export default {
-  name: 'App',
+
 }
 </script>
 
 <style>
 
 </style>
-
-
