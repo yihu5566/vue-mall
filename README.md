@@ -1,4 +1,5 @@
-# hello-world
+# new mall 
+学习vue 练习商城项目
 
 ## Project setup
 ```
