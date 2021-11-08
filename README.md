@@ -1,10 +1,12 @@
-# vue-mall-copy
+# new mall
+
+学习 vue 练习商城项目
 
 > A Vue.js project
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
