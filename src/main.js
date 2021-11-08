@@ -1,8 +1,12 @@
-import Vue from "vue";
-import App from "./App.vue";
-import { router } from "./router";
+import Vue from 'vue'
+import App from './App'
+import router from './router'
 
+Vue.config.productionTip = false
+
+/* eslint-disable no-new */
 new Vue({
-  render: (h) => h(App),
+  el: '#app',
   router,
-}).mount("#app");
+  render: h => h(App)
+})

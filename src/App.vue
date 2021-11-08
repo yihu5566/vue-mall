@@ -1,24 +1,23 @@
 <template>
   <div id="app">
-    <h3>我是标题</h3>
-    <main-tabbar></main-tabbar>
+    <img src="./assets/logo.png">
+    <router-view/>
   </div>
 </template>
 
 <script>
-import { MainTabBar } from "components/content/maintabbar";
-import MainTabbar from "./components/content/maintabbar/MainTabbar.vue";
 export default {
-  name: "App",
-  components: {
-    MainTabBar,
-  },
-};
+  name: 'App'
+}
 </script>
 
-<style lang="less">
-@import "assets/css/base.css";
-body {
-  touch-action: none;
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
