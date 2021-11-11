@@ -1,9 +1,11 @@
 <template>
-  <div id="app">
-    <div> 我是-----</div>
-  
-    <main-tab-bar class="main-tab-bar"></main-tab-bar>
-  </div>
+	<div id="app">
+		<keep-alive exclude="Detail">
+			<router-view />
+		</keep-alive>
+
+		<main-tab-bar class="main-tab-bar"></main-tab-bar>
+	</div>
 </template>
 
 <script>
@@ -16,6 +18,9 @@
 
 <style>
 	@import 'assets/css/base.css';
+	body {
+		touch-action: none;
+	}
 	.main-tab-bar {
 		background-color: aquamarine;
 	}
