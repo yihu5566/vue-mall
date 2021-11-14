@@ -1,5 +1,5 @@
 <template>
-	<div class="wrapper" ref="wrapperlist">
+	<div class="wrapper1" ref="wrapper">
 		<div class="content">
 			<slot></slot>
 		</div>
@@ -27,19 +27,26 @@
 			},
 		},
 		mounted() {
-			this.scroll = new BScroll(this.$refs.wrapperlist, {
-				probeType: 3,
-				pullUpLoad: true,
-				scrollbar: true,
+			this.$nextTick(() => {
+				if (!this.scroll) {
+					this.scroll = new BScroll(this.$refs.wrapper, {
+						probeType: 3,
+					})
+					console.log(this.scroll)
+					this.scroll.on('scroll', (pos) => {
+						console.log(pos)
+					})
+				}
 			})
+			// this.scroll = new BScroll(this.$refs.wrapperlist, {
+			// 	probeType: 3,
+			// 	pullUpLoad: true,
+			// 	scrollbar: true,
+			// })
 
-			this.scroll.on('scroll', () => {
-				console.log('scroll-------')
-			})
-
-			this.scroll.on('enable', () => {
-				console.log('enable-------')
-			})
+			// this.scroll.on('enable', () => {
+			// 	console.log('enable-------')
+			// })
 		},
 		methods: {
 			scrollTop() {
@@ -51,7 +58,10 @@
 </script>
 
 <style lang="less" scoped>
-	.wrapper {
-		background-color: red;
-	}
+	// .wrapper1 {
+	// 	position: absolute;
+	// 	left: 0;
+	// 	top: 0;
+	// 	overflow: hidden;
+	// }
 </style>
