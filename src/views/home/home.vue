@@ -16,18 +16,7 @@
 		<recommend-view :recommends="this.recommends"></recommend-view>
 		<feature-view />
 		<tab-control :titles="['流行', '新款', '精选']" @tabClick="tabClick" />
-		<ul>
-			<li class="list_1">list 1</li>
-			<li class="list_2">list 2</li>
-			<li class="list_3">list 3</li>
-			<li class="list_4">list 4</li>
-			<li class="list_5">list 5</li>
-			<li class="list_6">list 6</li>
-			<li class="list_7">list 7</li>
-			<li class="list_8">list 8</li>
-			<li class="list_9">list 9</li>
-			<li class="list_10">list 10</li>
-		</ul>
+		<goods-list :goods="showGoods"></goods-list>
 	</div>
 </template>
 
@@ -40,8 +29,9 @@
 	import RecommendView from '@/views/home/childview/RecommendView.vue'
 	import FeatureView from '@/views/home/childview/FeatureView.vue'
 	import TabControl from '@/components/common/tabcontrol/TabControl.vue'
+	import GoodsList from '@/components/content/goods/GoodsList.vue'
 	//api
-	import { getHomeMulitdata } from '@/network/home.js'
+	import { getHomeMulitdata, getHomeGoods } from '@/network/home.js'
 	export default {
 		name: 'Home',
 		components: {
@@ -51,6 +41,7 @@
 			RecommendView,
 			FeatureView,
 			TabControl,
+			GoodsList,
 		},
 		data() {
 			return {
@@ -68,10 +59,27 @@
 						el: '.swiper-pagination',
 					},
 				},
+				goods: {
+					pop: { page: 0, list: [] },
+					new: { page: 0, list: [] },
+					sell: { page: 0, list: [] },
+				},
+				// 点击获取类型
+				currentType: 'pop',
 			}
 		},
 		created() {
+			// 获取轮播图数据
 			this.getHomeMultidata()
+			// 获取商品数据
+			this.getHomeGoods('pop')
+			this.getHomeGoods('new')
+			this.getHomeGoods('sell')
+		},
+		computed: {
+			showGoods() {
+				return this.goods[this.currentType].list
+			},
 		},
 		methods: {
 			getHomeMultidata() {
@@ -80,9 +88,29 @@
 					this.recommends = data.recommend.list
 				})
 			},
+			getHomeGoods(type) {
+				const page = this.goods[type].page + 1
+				getHomeGoods(type, page).then(({ data: { data } }) => {
+					console.log(data)
+					this.goods[type].list.push(...data.list)
+					this.goods[type].page += 1
+				})
+			},
+
 			imgLoad() {},
 			tabClick(index) {
 				console.log('---tabClick-----', index)
+				switch (index) {
+					case 0:
+						this.currentType = 'pop'
+						break
+					case 1:
+						this.currentType = 'new'
+						break
+					case 2:
+						this.currentType = 'sell'
+						break
+				}
 			},
 		},
 	}
@@ -91,6 +119,7 @@
 <style lang="less" scoped>
 	.home {
 		height: 100vh;
+		font-size: var(--font-size);
 	}
 	.swiper {
 		margin-top: 44px;
