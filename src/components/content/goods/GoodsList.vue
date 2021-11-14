@@ -23,6 +23,7 @@
 
 <style lang="less" scoped>
 	.goods-list {
+		height: 100%;
 		display: flex;
 		flex-wrap: wrap;
 		margin: 5px 0 10px 0;
