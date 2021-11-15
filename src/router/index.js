@@ -8,6 +8,8 @@ const Category = () => import("@/views/category/Category.vue");
 
 const Profile = () => import("@/views/profile/Profile.vue");
 
+const Detail = () => import("@/views/detail/Detail");
+
 Vue.use(ViewRouter);
 
 const routes = [
@@ -16,6 +18,7 @@ const routes = [
   { path: "/profile", component: Profile },
   { path: "/cart", component: Cart },
   { path: "/category", component: Category },
+  { path: "/detail/:iid", component: Detail },
 ];
 
 export default new ViewRouter({

@@ -6,7 +6,6 @@
 			:probeType="3"
 			:pullUpLoad="true"
 			ref="scroll"
-			@scrollPx="getScrollPx"
 		>
 			<!-- 轮播图 -->
 			<swiper
@@ -20,7 +19,7 @@
 				</swiper-slide>
 				<div class="swiper-pagination" slot="pagination"></div>
 			</swiper>
-			<recommend-view :recommends="this.recommends"></recommend-view>
+			<recommend-view :recommends="recommends"></recommend-view>
 			<feature-view />
 			<tab-control :titles="['流行', '新款', '精选']" @tabClick="tabClick" />
 			<goods-list :goods="showGoods"></goods-list>
