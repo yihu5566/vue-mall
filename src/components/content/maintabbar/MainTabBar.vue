@@ -57,6 +57,3 @@
 		props: ['path'],
 	}
 </script>
-
-<style>
-</style>

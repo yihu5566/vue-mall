@@ -24,7 +24,7 @@
 			<tab-control :titles="['流行', '新款', '精选']" @tabClick="tabClick" />
 			<goods-list :goods="showGoods"></goods-list>
 		</scroll>
-		<!-- <go-top @click.native="backTop" /> -->
+		<go-top @click.native="backTop" />
 	</div>
 </template>
 
@@ -38,7 +38,7 @@
 	import TabControl from '@/components/common/tabcontrol/TabControl.vue'
 	import GoodsList from '@/components/content/goods/GoodsList.vue'
 	import Scroll from '@/components/common/scroll/Scroll.vue'
-	// import GoTop from '@/components/content/gotop/GoTop.vue'
+	import GoTop from '@/components/content/gotop/GoTop.vue'
 
 	//api
 	import { getHomeMulitdata, getHomeGoods } from '@/network/home.js'
@@ -56,7 +56,7 @@
 			TabControl,
 			GoodsList,
 			Scroll,
-			// GoTop,
+			GoTop,
 		},
 		// mixins: [backTopMixIn],
 		data() {

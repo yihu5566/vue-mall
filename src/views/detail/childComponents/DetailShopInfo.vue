@@ -8,7 +8,7 @@
 			<div class="shop-middle-item shop-middle-left">
 				<div class="shop-sells">
 					<div class="sells-count">
-						{{ shop.sells }}
+						{{ shop.sells | sellCountFilter }}
 					</div>
 					<div class="sells-text">总销量</div>
 				</div>
@@ -43,6 +43,12 @@
 		name: 'DetailShopInfo',
 		props: {
 			shop: {},
+		},
+		filters: {
+			sellCountFilter: function (value) {
+				if (value < 10000) return value
+				return (value / 10000).toFixed(1) + '万'
+			},
 		},
 	}
 </script>

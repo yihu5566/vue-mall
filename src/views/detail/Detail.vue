@@ -5,6 +5,7 @@
 			<detail-swiper :topImages="topImages" />
 			<detail-base-info :goods="goods"></detail-base-info>
 			<detail-shop-info :shop="shopInfo"></detail-shop-info>
+			<detail-goods-info :detailInfo="detailInfo" />
 		</scroll>
 	</div>
 </template>
@@ -15,6 +16,7 @@
 	import Scroll from '@/components/common/scroll/Scroll.vue'
 	import DetailBaseInfo from '@/views/detail/childComponents/DetailBaseInfo.vue'
 	import DetailShopInfo from '@/views/detail/childComponents/DetailShopInfo.vue'
+	import DetailGoodsInfo from '@/views/detail/childComponents/DetailGoodsInfo.vue'
 
 	import { getDetail, Goods } from '@/network/detail'
 	export default {
@@ -25,6 +27,7 @@
 			DetailBaseInfo,
 			DetailSwiper,
 			DetailShopInfo,
+			DetailGoodsInfo,
 		},
 		data() {
 			return {
@@ -32,6 +35,7 @@
 				goods: {},
 				topImages: {},
 				shopInfo: {},
+				detailInfo: {},
 			}
 		},
 		created() {
@@ -49,6 +53,8 @@
 				)
 				//店铺信息
 				this.shopInfo = data.shopInfo
+				//商品信息
+				this.detailInfo = data.detailInfo
 			})
 		},
 	}
@@ -56,7 +62,10 @@
 
 <style lang="less" scoped>
 	.detail-nav-bar {
-		width: 100%;
+        width: 100%;
+		position: relative;
+		z-index: 999;
+		background-color: #fff;
 	}
 	.detail {
 		background-color: white;
@@ -65,14 +74,15 @@
 		z-index: 9px;
 	}
 	.scrool-wrapper {
-		position: absolute;
-		top: 44px;
-		bottom: 49px;
-		left: 0;
-		right: 0;
-		// overflow: hidden;
-		// height: 100%;
-		// display: flex;
-		overflow: scroll;
+        height: calc(100% - 44px)
+		// position: absolute;
+		// top: 44px;
+		// bottom: 49px;
+		// left: 0;
+		// right: 0;
+		// // overflow: hidden;
+		// // height: 100%;
+		// // display: flex;
+		// overflow: scroll;
 	}
 </style>

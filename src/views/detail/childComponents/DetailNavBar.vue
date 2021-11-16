@@ -42,6 +42,7 @@
 <style lang="less" scoped>
 	#title {
 		display: flex;
+		color: #333;
 	}
 	.title-item {
 		flex: 1;

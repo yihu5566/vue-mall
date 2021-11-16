@@ -17,10 +17,4 @@
 
 <style>
 	@import 'assets/css/base.css';
-	body {
-		touch-action: none;
-	}
-	.main-tab-bar {
-		background-color: aquamarine;
-	}
 </style>
