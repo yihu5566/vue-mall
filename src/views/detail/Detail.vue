@@ -3,9 +3,10 @@
 		<detail-nav-bar class="detail-nav-bar" />
 		<scroll class="scrool-wrapper">
 			<detail-swiper :topImages="topImages" />
-			<detail-base-info :goods="goods"></detail-base-info>
-			<detail-shop-info :shop="shopInfo"></detail-shop-info>
+			<detail-base-info :goods="goods" />
+			<detail-shop-info :shop="shopInfo" />
 			<detail-goods-info :detailInfo="detailInfo" />
+			<detail-param-info :paramInfo="paramInfo"></detail-param-info>
 		</scroll>
 	</div>
 </template>
@@ -17,8 +18,9 @@
 	import DetailBaseInfo from '@/views/detail/childComponents/DetailBaseInfo.vue'
 	import DetailShopInfo from '@/views/detail/childComponents/DetailShopInfo.vue'
 	import DetailGoodsInfo from '@/views/detail/childComponents/DetailGoodsInfo.vue'
+	import DetailParamInfo from '@/views/detail/childComponents/DetailParamInfo.vue'
 
-	import { getDetail, Goods } from '@/network/detail'
+	import { getDetail, Goods, ShopInfo, GoodsParam } from '@/network/detail'
 	export default {
 		name: 'Detail',
 		components: {
@@ -28,6 +30,7 @@
 			DetailSwiper,
 			DetailShopInfo,
 			DetailGoodsInfo,
+			DetailParamInfo,
 		},
 		data() {
 			return {
@@ -36,6 +39,7 @@
 				topImages: {},
 				shopInfo: {},
 				detailInfo: {},
+				paramInfo: {},
 			}
 		},
 		created() {
@@ -44,17 +48,26 @@
 				const data = res.data.result
 				console.log(data)
 				// 1.获取顶部的轮播图数据
-				this.topImages = data.itemInfo.topImages
+				this.topImages = data.itemInfo.topImages || []
+				console.log(`===topImages====>>>>>>>${this.topImages}`)
+
 				// 商品信息
-				this.goods = new Goods(
-					data.itemInfo,
-					data.columns,
-					data.shopInfo.services
-				)
+				this.goods =
+					new Goods(data.itemInfo, data.columns, data.shopInfo.services) || {}
+				console.log(`===goods====>>>>>>>${JSON.stringify(this.goods)}`)
+
 				//店铺信息
-				this.shopInfo = data.shopInfo
+				this.shopInfo = new ShopInfo(data.shopInfo) || []
+				// console.log(`=====shopInfo==>>>>>>>${JSON.stringify(this.shopInfo)}`)
+
 				//商品信息
-				this.detailInfo = data.detailInfo
+				this.detailInfo = data.detailInfo || {}
+				// console.log(`=====detailInfo==>>>>>>>${JSON.stringify(this.detailInfo)}`)
+
+				//商品参数
+				this.paramInfo =
+					new GoodsParam(data.itemParams.info, data.itemParams.rule) || {}
+				// console.log(`===paramInfo====>>>>>>>${JSON.stringify(this.paramInfo)}`)
 			})
 		},
 	}
@@ -64,14 +77,14 @@
 	.detail-nav-bar {
         width: 100%;
 		position: relative;
-		z-index: 999;
+		z-index: 9;
 		background-color: #fff;
 	}
 	.detail {
 		background-color: white;
 		height: 100vh;
 		position: relative;
-		z-index: 9px;
+		z-index: 9;
 	}
 	.scrool-wrapper {
         height: calc(100% - 44px)
