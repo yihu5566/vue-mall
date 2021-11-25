@@ -1,97 +1,70 @@
 <template>
-	<div>
-		<div class="category">我是分类</div>
-		<scroll-copy class="scrool-wrapper">
-			<ul>
-				<li class="list_1">list 1</li>
-				<li class="list_2">list 2</li>
-				<li class="list_3">list 3</li>
-				<li class="list_4">list 4</li>
-				<li class="list_5">list 5</li>
-				<li class="list_6">list 6</li>
-				<li class="list_7">list 7</li>
-				<li class="list_8">list 8</li>
-				<li class="list_9">list 9</li>
-				<li class="list_10">list 10</li>
-				<li class="list_11">list 11</li>
-				<li class="list_12">list 12</li>
-				<li class="list_13">list 13</li>
-				<li class="list_14">list 14</li>
-				<li class="list_15">list 15</li>
-				<li class="list_16">list 16</li>
-				<li class="list_17">list 17</li>
-				<li class="list_18">list 18</li>
-				<li class="list_19">list 19</li>
-				<li class="list_20">list 20</li>
-				<li class="list_1">list 1</li>
-				<li class="list_2">list 2</li>
-				<li class="list_3">list 3</li>
-				<li class="list_4">list 4</li>
-				<li class="list_5">list 5</li>
-				<li class="list_6">list 6</li>
-				<li class="list_7">list 7</li>
-				<li class="list_8">list 8</li>
-				<li class="list_9">list 9</li>
-				<li class="list_10">list 10</li>
-				<li class="list_11">list 11</li>
-				<li class="list_12">list 12</li>
-				<li class="list_13">list 13</li>
-				<li class="list_14">list 14</li>
-				<li class="list_15">list 15</li>
-				<li class="list_16">list 16</li>
-				<li class="list_17">list 17</li>
-				<li class="list_18">list 18</li>
-				<li class="list_19">list 19</li>
-				<li class="list_20">list 20</li>
-				<li class="list_10">list 10</li>
-				<li class="list_11">list 11</li>
-				<li class="list_12">list 12</li>
-				<li class="list_13">list 13</li>
-				<li class="list_14">list 14</li>
-				<li class="list_15">list 15</li>
-				<li class="list_16">list 16</li>
-				<li class="list_17">list 17</li>
-				<li class="list_18">list 18</li>
-				<li class="list_19">list 19</li>
-				<li class="list_20">list 20</li>
-				<li class="list_1">list 1</li>
-				<li class="list_2">list 2</li>
-				<li class="list_3">list 3</li>
-				<li class="list_4">list 4</li>
-				<li class="list_5">list 5</li>
-				<li class="list_6">list 6</li>
-				<li class="list_7">list 7</li>
-				<li class="list_8">list 8</li>
-				<li class="list_9">list 9</li>
-				<li class="list_10">list 10</li>
-				<li class="list_11">list 11</li>
-				<li class="list_12">list 12</li>
-				<li class="list_13">list 13</li>
-				<li class="list_14">list 14</li>
-				<li class="list_15">list 15</li>
-				<li class="list_16">list 16</li>
-				<li class="list_17">list 17</li>
-				<li class="list_18">list 18</li>
-				<li class="list_19">list 19</li>
-				<li class="list_20">list 20</li>
-			</ul>
-		</scroll-copy>
+	<div id="Category">
+		<p v-for="(item, index) in arr" :key="index">回到顶部</p>
+		<div class="back" v-show="showGoTop" @click="goToTop">back</div>
 	</div>
 </template>
 
 <script>
-	import ScrollCopy from '@/components/common/scroll/Scroll.vue'
-
 	export default {
 		name: 'Category',
-		components: { ScrollCopy },
+		data() {
+			return {
+				arr: [],
+				showGoTop: false,
+			}
+		},
+		mounted() {
+			for (let index = 0; index < 54; index++) {
+				this.arr.push(index)
+			}
+
+			// 第一步，绑定一个滚动事件，当滚动的距离达到浏览器窗口的内部高度的时候(大概一个屏幕的高度吧)
+			//         就让回到顶部的小盒子显示出来
+			window.addEventListener('scroll', this.handleScroll, true) // 这里加上true是为了保证浏览器滚动的及时性
+		},
+		methods: {
+			// 滚动事件的回调函数
+			handleScroll() {
+				let scrolltop = document.documentElement.scrollTop // 获取当前页面的滚动条纵坐标位置
+				console.log('看看滚动了多高的距离', scrolltop)
+				if (scrolltop > window.innerHeight) {
+					// 浏览器窗口的内部高度 window.innerHeight
+					this.showGoTop = true // 超过就显示出来
+				} else {
+					this.showGoTop = false // 不超过还藏起来
+				}
+			},
+			// 第二步，当用户点击回到顶部小盒子的时候，仍然获取所在的页面的滚动条纵坐标位置,
+			//         使用定时器让页面滚动条的坐标位置递减，这样就能实现平滑过渡的效果
+			goToTop() {
+				let scrolltop = document.documentElement.scrollTop // 获取当前页面的滚动条纵坐标位置
+				// 定时器平滑滚动
+				const time = setInterval(() => {
+					document.documentElement.scrollTop = scrolltop -= 40
+					if (scrolltop <= 0) {
+						// 定时器要及时清除掉，要不然一直执行很恐怖的
+						clearInterval(time)
+					}
+				}, 10)
+			},
+		},
 	}
 </script>
 
 <style>
-	.scrool-wrapper {
-		height: 100%;
-		display: flex;
-		overflow: scroll;
+	p {
+		margin-bottom: 30px;
+	}
+	.back {
+		width: 60px;
+		height: 60px;
+		line-height: 60px;
+		text-align: center;
+		background-color: #abf;
+		position: fixed;
+		right: 100px;
+		bottom: 100px;
+		cursor: pointer;
 	}
 </style>

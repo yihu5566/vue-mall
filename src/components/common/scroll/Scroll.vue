@@ -1,67 +1,39 @@
 <template>
 	<div class="wrapper1" ref="wrapper">
-		<div class="content">
-			<slot></slot>
-		</div>
+		<slot></slot>
 	</div>
 </template>
 
 <script>
-	// 引入better-scroll插件
-	import BScroll from 'better-scroll'
 	export default {
 		name: 'Scroll',
-		data() {
-			return {
-				scroll: null,
-			}
-		},
-		props: {
-			probeType: {
-				type: Number,
-				default: 0,
-			},
-			pullUpload: {
-				type: Boolean,
-				default: false,
-			},
-		},
 		mounted() {
-			this.$nextTick(() => {
-				if (!this.scroll) {
-					this.scroll = new BScroll(this.$refs.wrapper, {
-						probeType: 3,
-					})
-					// console.log(this.scroll)
-					this.scroll.on('scroll', (pos) => {
-						console.log(pos)
-					})
-				}
-			})
-			// this.scroll = new BScroll(this.$refs.wrapperlist, {
-			// 	probeType: 3,
-			// 	pullUpLoad: true,
-			// 	scrollbar: true,
-			// })
-
-			// this.scroll.on('enable', () => {
-			// 	console.log('enable-------')
-			// })
+			// 第一步，绑定一个滚动事件，当滚动的距离达到浏览器窗口的内部高度的时候(大概一个屏幕的高度吧)
+			//         就让回到顶部的小盒子显示出来
+			window.addEventListener('scroll', this.handleScroll, true) // 这里加上true是为了保证浏览器滚动的及时性
 		},
 		methods: {
-			scrollTop() {
-				console.log('scrollTop-------')
-				this.scroll.scrollTo(0, 0, 300)
+			// 滚动事件的回调函数
+			handleScroll() {
+				let scrolltop = document.documentElement.scrollTop // 获取当前页面的滚动条纵坐标位置
+				// console.log('看看滚动了多高的距离', scrolltop)
+				//发送事件出去，当前高度
+				this.$emit('scrollY', scrolltop)
+			},
+			goToTop() {
+				let scrolltop = document.documentElement.scrollTop // 获取当前页面的滚动条纵坐标位置
+				// 定时器平滑滚动
+				const time = setInterval(() => {
+					document.documentElement.scrollTop = scrolltop -= 40
+					if (scrolltop <= 0) {
+						// 定时器要及时清除掉，要不然一直执行很恐怖的
+						clearInterval(time)
+					}
+				}, 10)
 			},
 		},
 	}
 </script>
 
 <style lang="less" scoped>
-	// .wrapper1 {
-	// 	position: absolute;
-	// 	left: 0;
-	// 	top: 0;
-	// 	overflow: hidden;
-	// }
 </style>

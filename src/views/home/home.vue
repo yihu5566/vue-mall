@@ -1,40 +1,37 @@
 <template>
 	<div class="home">
 		<nav-bar> <h4 slot="center">购物街</h4></nav-bar>
-		<scroll
-			class="scrool-wrapper"
-			:probeType="3"
-			:pullUpLoad="true"
-			ref="scroll"
-		>
+		<tab-control
+			ref="tabControl1"
+			class="tab-control-1"
+			:titles="['流行', '新款', '精选']"
+			@tabClick="tabClick"
+			v-show="isTabFixed"
+		/>
+		<scroll class="scrool-wrapper" ref="scroll" @scrollY="getScrollPx">
 			<!-- 轮播图 -->
-			<swiper
-				:options="swiperOption"
-				class="swiper"
-				ref="mySwiper"
-				v-if="banners.length"
-			>
-				<swiper-slide v-for="(banner, index) in banners" :key="index">
-					<img :src="banner.image" :title="banner.title" @load="imgLoad" />
-				</swiper-slide>
-				<div class="swiper-pagination" slot="pagination"></div>
-			</swiper>
-			<recommend-view :recommends="recommends"></recommend-view>
+			<home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad" />
+
 			<feature-view />
-			<tab-control :titles="['流行', '新款', '精选']" @tabClick="tabClick" />
+			<tab-control
+				ref="tabControl2"
+				:titles="['流行', '新款', '精选']"
+				@tabClick="tabClick"
+			/>
 			<goods-list :goods="showGoods"></goods-list>
 		</scroll>
-		<go-top @click.native="backTop" />
+		<go-top @click.native="backTop" v-show="isShowTop" />
 	</div>
 </template>
 
 <script>
 	//组件
 	import NavBar from '@/components/common/navbar/NavBar.vue'
-	import { swiper, swiperSlide } from 'vue-awesome-swiper'
-	import 'vue-awesome-swiper/node_modules/swiper/dist/css/swiper.css'
-	import RecommendView from '@/views/home/childview/RecommendView.vue'
-	import FeatureView from '@/views/home/childview/FeatureView.vue'
+	// import { swiper, swiperSlide } from 'vue-awesome-swiper'
+	// import 'vue-awesome-swiper/node_modules/swiper/dist/css/swiper.css'
+	import HomeSwiper from './childview/HomeSwiper.vue'
+	// import RecommendView from '@/views/home/childview/RecommendView.vue'
+	import FeatureView from './childview/FeatureView.vue'
 	import TabControl from '@/components/common/tabcontrol/TabControl.vue'
 	import GoodsList from '@/components/content/goods/GoodsList.vue'
 	import Scroll from '@/components/common/scroll/Scroll.vue'
@@ -49,9 +46,7 @@
 		name: 'Home',
 		components: {
 			NavBar,
-			swiper,
-			swiperSlide,
-			RecommendView,
+			HomeSwiper,
 			FeatureView,
 			TabControl,
 			GoodsList,
@@ -83,6 +78,14 @@
 				// 点击获取类型
 				currentType: 'pop',
 				isShowTop: true,
+
+				//距离顶部偏差
+				tabOffsetTop: 0,
+				//是吸顶
+				isTabFixed: false,
+
+				//  跳转路由时，保存位置
+				saveY: 0,
 			}
 		},
 		created() {
@@ -102,10 +105,11 @@
 			getScrollPx(y) {
 				console.log('滑动距离', y)
 				// 当滑动到一定位置出现返回顶部
-				this.isShowTop = y < -1000 ? true : false
+				this.isShowTop = y > 1000 ? true : false
+				this.isTabFixed = y > this.tabOffsetTop
 			},
 			backTop() {
-				this.$refs.scroll.scrollTop(0, 0)
+				this.$refs.scroll.goToTop()
 			},
 
 			getHomeMultidata() {
@@ -124,6 +128,10 @@
 			},
 
 			imgLoad() {},
+			swiperImageLoad() {
+				this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
+				console.log(this.tabOffsetTop)
+			},
 			tabClick(index) {
 				console.log('---tabClick-----', index)
 				switch (index) {
@@ -137,6 +145,9 @@
 						this.currentType = 'sell'
 						break
 				}
+				//是两个真的tabcontrol和替身tabcontrol统一起来
+				this.$refs.tabControl1.currentIndex = index
+				this.$refs.tabControl2.currentIndex = index
 			},
 		},
 	}
@@ -153,9 +164,15 @@
 		bottom: 49px;
 		left: 0;
 		right: 0;
-		// overflow: hidden;
-		// height: 100%;
-		// display: flex;
-		overflow: scroll;
+	}
+	.tab-control-1 {
+		/*这里需要改变tabcontrol的层级，使用定位，但是，这里不需要使用absolute或者是fixed*/
+		display: flex;
+		position: fixed;
+		z-index: 9;
+		top: 44px;
+		background-color: white;
+		left: 0;
+		right: 0;
 	}
 </style>
