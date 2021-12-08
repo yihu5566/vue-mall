@@ -127,10 +127,9 @@
 				})
 			},
 
-			imgLoad() {},
 			swiperImageLoad() {
 				this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
-				console.log(this.tabOffsetTop)
+				console.log('===轮播图高度====', this.tabOffsetTop)
 			},
 			tabClick(index) {
 				console.log('---tabClick-----', index)
@@ -149,6 +148,12 @@
 				this.$refs.tabControl1.currentIndex = index
 				this.$refs.tabControl2.currentIndex = index
 			},
+		},
+		activated() {
+			this.$refs.scroll.scrollTo(this.saveY)
+		},
+		deactivated() {
+			this.saveY = this.$refs.scroll.getScrollY()
 		},
 	}
 </script>

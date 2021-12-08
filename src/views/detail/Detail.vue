@@ -6,7 +6,7 @@
 			<detail-base-info :goods="goods" />
 			<detail-shop-info :shop="shopInfo" />
 			<detail-goods-info :detailInfo="detailInfo" />
-			<detail-param-info :paramInfo="paramInfo"></detail-param-info>
+			<detail-param-info :paramInfo="paramInfo" />
 		</scroll>
 	</div>
 </template>
@@ -75,19 +75,20 @@
 
 <style lang="less" scoped>
 	.detail-nav-bar {
-        width: 100%;
+		width: 100%;
 		position: relative;
 		z-index: 9;
 		background-color: #fff;
 	}
 	.detail {
-		background-color: white;
+		background-color: #fff;
 		height: 100vh;
 		position: relative;
 		z-index: 9;
+		margin-bottom: 44px;
 	}
 	.scrool-wrapper {
-        height: calc(100% - 44px)
+		height: calc(100% - 44px);
 		// position: absolute;
 		// top: 44px;
 		// bottom: 49px;

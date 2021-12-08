@@ -31,6 +31,14 @@
 					}
 				}, 10)
 			},
+
+			scrollTo(y) {
+				// 定时器平滑滚动
+				document.documentElement.scrollTop = y
+			},
+			getScrollY() {
+				return document.documentElement.scrollTop // 获取当前页面的滚动条纵坐标位置
+			},
 		},
 	}
 </script>
