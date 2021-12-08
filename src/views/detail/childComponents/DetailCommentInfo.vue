@@ -98,7 +98,6 @@
 	}
 	.info-middle .info-p {
 		padding: 5px;
-		margin-top: 15px;
 		background-color: #f0f0f0;
 	}
 	.info-middle .info-p p {

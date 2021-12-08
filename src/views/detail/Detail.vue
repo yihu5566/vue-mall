@@ -83,12 +83,6 @@
 </script>
 
 <style lang="less" scoped>
-	.detail-nav-bar {
-		width: 100%;
-		position: relative;
-		z-index: 9;
-		background-color: #fff;
-	}
 	.detail {
 		background-color: #fff;
 		height: 100vh;
@@ -98,14 +92,7 @@
 	}
 	.scrool-wrapper {
 		height: calc(100% - 44px);
-		// position: absolute;
-		// top: 44px;
-		// bottom: 49px;
-		// left: 0;
-		// right: 0;
-		// // overflow: hidden;
-		// // height: 100%;
-		// // display: flex;
-		// overflow: scroll;
+		top: 44px;
+		bottom: 49px;
 	}
 </style>
